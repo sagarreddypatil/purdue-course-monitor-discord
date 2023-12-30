@@ -48,6 +48,11 @@ class Course(BaseModel):
     term: Term
     sections: Optional[list[Section]] = Field(default=None)
 
+    def __str__(self):
+        return (
+            f"{self.term.semester.value} {self.term.year} {self.subject} {self.number}"
+        )
+
 
 class Seats(BaseModel):
     capacity: int

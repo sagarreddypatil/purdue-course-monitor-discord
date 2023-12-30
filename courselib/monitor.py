@@ -68,8 +68,6 @@ class CourseMonitor(Thread):
         # populate sections
         update_course_sections(course)
 
-        print(course.sections)
-
         # add to courses and save to file
         with self.courses_lock:
             self.courses.append(course)
@@ -80,15 +78,23 @@ class CourseMonitor(Thread):
             self.courses.remove(course)
             self.write_courses()
 
+    def get_courses(self) -> list[Course]:
+        with self.courses_lock:
+            return self.courses.copy()
+
     def run(self):
         while not self.stop:
             all_sections: list[Section] = []
+            section_courses: dict[str, Course] = {}
+
             with self.courses_lock:
                 for course in self.courses:
                     if not course.sections:
                         continue
 
                     all_sections += course.sections
+                    for section in course.sections:
+                        section_courses[section.id] = course.copy()
 
             if len(all_sections) == 0:
                 sleep(self.fetch_interval)
@@ -113,6 +119,10 @@ class CourseMonitor(Thread):
                 if old_seating:
                     diff = diff_section_seats_pretty(old_seating, new_seating)
                     if diff is not None:
+                        course = section_courses[section.id]
+                        diff = (
+                            f"{course.subject} {course.number} {section.name}: {diff}"
+                        )
                         self.callback(diff)
 
                 self.section_seats[section.id] = new_seating
