@@ -16,7 +16,6 @@ def update_course_sections(course: Course):
     number = course.number
 
     url = f"https://selfservice.mypurdue.purdue.edu/prod/bwckctlg.p_disp_listcrse?term_in={term}&subj_in={subject}&crse_in={number}&schd_in="
-    print(url)
 
     r = requests.get(url, headers=req_headers)
     if r.status_code != 200:
