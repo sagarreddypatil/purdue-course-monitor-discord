@@ -102,9 +102,10 @@ class CourseMonitor(Thread):
             if len(all_sections) == 0:
                 sleep(self.fetch_interval)
                 continue
+            dt = self.fetch_interval / len(all_sections)
 
             success = 0
-            total = 0
+            total = len(all_sections)
 
             for section in all_sections:
                 old_seating = self.section_seats.get(section.id, None)
@@ -113,9 +114,8 @@ class CourseMonitor(Thread):
                     new_seating = section_seats(section)
                 except Exception as e:
                     print(e)
-                    total += 1
 
-                    sleep(self.fetch_interval)
+                    sleep(dt)
                     continue
 
                 if old_seating:
@@ -133,10 +133,9 @@ class CourseMonitor(Thread):
                     f.write(SectionSeatsDict.dump_json(self.section_seats))
 
                 success += 1
-                total += 1
 
                 print(f"Fetched {section.id} ({success}/{total})")
-                sleep(self.fetch_interval)
+                sleep(dt)
 
 
 if __name__ == "__main__":

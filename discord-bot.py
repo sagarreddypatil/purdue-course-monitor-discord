@@ -23,7 +23,7 @@ def webhook_callback(message: str):
         print(f"Error sending webhook: {r.text}")
 
 
-monitor = CourseMonitor("data", callback=webhook_callback, fetch_interval=60)
+monitor = CourseMonitor("data", callback=webhook_callback, fetch_interval=600)
 bot = discord.Bot()
 
 
