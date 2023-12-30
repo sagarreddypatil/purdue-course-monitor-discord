@@ -78,4 +78,5 @@ async def list_courses(ctx):
     await ctx.respond("\n".join([str(course) for course in courses]))
 
 
+monitor.start()
 bot.run(os.getenv("DISCORD_TOKEN"))

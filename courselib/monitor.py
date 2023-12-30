@@ -102,7 +102,6 @@ class CourseMonitor(Thread):
             if len(all_sections) == 0:
                 sleep(self.fetch_interval)
                 continue
-            dt = self.fetch_interval / len(all_sections)
 
             success = 0
             total = 0
@@ -116,7 +115,7 @@ class CourseMonitor(Thread):
                     print(e)
                     total += 1
 
-                    sleep(dt)
+                    sleep(self.fetch_interval)
                     continue
 
                 if old_seating:
@@ -136,7 +135,8 @@ class CourseMonitor(Thread):
                 success += 1
                 total += 1
 
-                sleep(dt)
+                print(f"Fetched {section.id} ({success}/{total})")
+                sleep(self.fetch_interval)
 
 
 if __name__ == "__main__":
