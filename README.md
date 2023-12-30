@@ -1,5 +1,7 @@
 # Discord Purdue Course Monitor
 
+**Note: This is a one-and-done project. It will not be maintained except for bug fixes. Hopefully, it continues to work. If any bugs are found, feel free to submit an Issue/PR.**
+
 ## Usage
 
 1. Install Python 3.6 or higher
