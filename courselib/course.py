@@ -39,7 +39,12 @@ def update_course_sections(course: Course):
         text_segments = link.text.split(" - ")
 
         sections.append(
-            Section(id=text_segments[1], name=text_segments[3], term=course.term)
+            Section(
+                id=text_segments[1],
+                name=text_segments[3],
+                term=course.term,
+                # course_name=f"{subject} {number}", # field doesn't exist
+            )
         )
 
     course.sections = sections
