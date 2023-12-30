@@ -35,6 +35,9 @@ class Term(BaseModel):
         year = self.year + semIncrements[self.semester]
         return str(year) + str(semNumbers[self.semester])
 
+    def __eq__(self, other):
+        return self.year == other.year and self.semester == other.semester
+
 
 class Section(BaseModel):
     id: str
@@ -51,6 +54,13 @@ class Course(BaseModel):
     def __str__(self):
         return (
             f"{self.term.semester.value} {self.term.year} {self.subject} {self.number}"
+        )
+
+    def __eq__(self, other):
+        return (
+            self.subject == other.subject
+            and self.number == other.number
+            and self.term == other.term
         )
 
 

@@ -65,6 +65,9 @@ class CourseMonitor(Thread):
             f.write(CourseList.dump_json(self.courses))
 
     def add_course(self, course: Course):
+        if course in self.courses:
+            raise ValueError(f"{course} already being monitored")
+
         # populate sections
         update_course_sections(course)
 
