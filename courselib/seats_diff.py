@@ -10,7 +10,7 @@ def diff_seats_pretty(old: Seats, new: Seats) -> Seats:
     return None
 
 
-def diff_section_seats(old: SectionSeats, new: SectionSeats):
+def diff_section_seats_pretty(old: SectionSeats, new: SectionSeats):
     """Returns a pretty string of the difference between two section seats objects"""
 
     if old.crosslist is not None and new.crosslist is not None:
@@ -41,15 +41,14 @@ if __name__ == "__main__":
         subject="STAT",
         number="41600",
         term=Term(year=2024, semester=Semester.Spring),
-        sections=[],
     )
 
     update_course_sections(test_course)
     seats = section_seats(test_course.sections[0])
 
-    print(diff_section_seats(seats, seats))
+    print(diff_section_seats_pretty(seats, seats))
 
     new_seats = SectionSeats.model_validate_json(seats.model_dump_json())
     new_seats.seats.remaining += 1
 
-    print(diff_section_seats(seats, new_seats))  # works
+    print(diff_section_seats_pretty(seats, new_seats))  # works

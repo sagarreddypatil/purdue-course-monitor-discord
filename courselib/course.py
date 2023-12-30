@@ -22,6 +22,9 @@ def update_course_sections(course: Course):
     if r.status_code != 200:
         raise Exception("Course not found")
 
+    if "sorry" in r.text:
+        raise Exception(f"Rate limited for {url}")
+
     soup = BeautifulSoup(r.text, "html.parser")
 
     if "No classes were found" in soup.text:
@@ -58,7 +61,7 @@ def section_seats(section: Section):
     r = requests.get(url, headers=req_headers)
 
     if "sorry" in r.text:
-        raise Exception(f"Rate limited for {section['link']}")
+        raise Exception(f"Rate limited for section {url}")
 
     if "No detailed" in r.text:
         raise Exception(f"Section {section['link']} not found")
@@ -108,7 +111,6 @@ if __name__ == "__main__":
         subject="STAT",
         number="41600",
         term=Term(year=2024, semester=Semester.Spring),
-        sections=[],
     )
     update_course_sections(test_course)
     print(section_seats(test_course.sections[0]))

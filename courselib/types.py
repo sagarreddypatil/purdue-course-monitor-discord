@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Optional
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, Field
 
 
 class Semester(str, Enum):
@@ -46,7 +46,7 @@ class Course(BaseModel):
     subject: str  # can't be bothered to validate this
     number: str
     term: Term
-    sections: list[Section]
+    sections: Optional[list[Section]] = Field(default=None)
 
 
 class Seats(BaseModel):
