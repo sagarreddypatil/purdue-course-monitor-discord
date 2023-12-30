@@ -1,5 +1,6 @@
 from enum import Enum
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel, constr
 
 
 class Semester(str, Enum):
@@ -31,16 +32,14 @@ class Term(BaseModel):
     semester: Semester
 
     def __str__(self):
-        sem = self.semester.upper()
-        semEnum = Semester[sem]
-
-        year = self.year + semIncrements[semEnum]
-        return str(year) + str(semNumbers[semEnum])
+        year = self.year + semIncrements[self.semester]
+        return str(year) + str(semNumbers[self.semester])
 
 
 class Section(BaseModel):
     id: str
     name: str
+    term: Term
 
 
 class Course(BaseModel):
@@ -48,3 +47,16 @@ class Course(BaseModel):
     number: str
     term: Term
     sections: list[Section]
+
+
+class Seats(BaseModel):
+    capacity: int
+    actual: int
+    remaining: int
+
+
+class SectionSeats(BaseModel):
+    section: Section
+    seats: Seats
+    waitlist: Seats
+    crosslist: Optional[Seats]
