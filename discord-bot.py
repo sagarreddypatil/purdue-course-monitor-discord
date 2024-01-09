@@ -35,11 +35,10 @@ async def add_course(
     subject: discord.Option(str),
     number: discord.Option(str),
 ):
-    term = Term(year=int(year), semester=Semester(semester))
-
-    course = Course(subject=subject, number=number, term=term)
-
     try:
+        term = Term(year=int(year), semester=Semester(semester))
+        course = Course(subject=subject, number=number, term=term)
+
         monitor.add_course(course)
         await ctx.respond(f"Added {course}")
     except Exception as e:
@@ -56,11 +55,10 @@ async def remove_course(
     subject: discord.Option(str),
     number: discord.Option(str),
 ):
-    term = Term(year=int(year), semester=Semester(semester))
-
-    course = Course(subject=subject, number=number, term=term)
-
     try:
+        term = Term(year=int(year), semester=Semester(semester))
+        course = Course(subject=subject, number=number, term=term)
+
         monitor.remove_course(course)
         await ctx.respond(f"Removed {course}")
     except Exception as e:
