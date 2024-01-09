@@ -20,6 +20,9 @@ def diff_section_seats_pretty(old: SectionSeats, new: SectionSeats):
         if diff is not None:
             return diff
 
+        # Ignore normal seats for crosslisted sections
+        return None
+
     # normal seats are next most important
     diff = diff_seats_pretty(old.seats, new.seats)
     if diff is not None:
